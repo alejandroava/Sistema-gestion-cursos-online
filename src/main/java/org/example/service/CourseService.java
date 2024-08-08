@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CourseService implements IModelCourse {
@@ -72,6 +73,19 @@ public class CourseService implements IModelCourse {
 
     @Override
     public List<Course> readAllCourse() {
-        return List.of();
+        List<Course> courses = new ArrayList<>();
+        String sqlQuery = "SELECT * FROM Courses;";
+        try(Connection connection = ConnectionBD.getconnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        ResultSet rs = preparedStatement.executeQuery()){
+            while(rs.next()){
+                Course course = new Course(rs.getInt("id"),
+                        rs.getString("name"));
+                courses.add(course);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return courses;
     }
 }

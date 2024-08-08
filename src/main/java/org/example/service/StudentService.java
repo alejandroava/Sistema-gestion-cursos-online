@@ -140,4 +140,25 @@ public class StudentService implements IModelStudent {
 
         return null;
     }
+
+    @Override
+    public List<Student> readAllStudentActive() {
+        List<Student> studentsActive = new ArrayList<>();
+        String sqlQuery = "SELECT * FROM Students WHERE active = 1;";
+        try(Connection connection = ConnectionBD.getconnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
+        ResultSet rs = preparedStatement.executeQuery()){
+            while (rs.next()){
+                Student student = new Student(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("lastname"),
+                        rs.getString("email"),
+                        rs.getBoolean("active"));
+                studentsActive.add(student);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return studentsActive;
+    }
 }

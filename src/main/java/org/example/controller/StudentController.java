@@ -29,5 +29,8 @@ public class StudentController {
         int id = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el id del estudiante"));
         this.studentService.readStudentByID(id);
     }
+    public void readAllStudentActive(){
+        this.studentService.readAllStudentActive();
+    }
 
 }

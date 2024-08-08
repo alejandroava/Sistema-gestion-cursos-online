@@ -34,5 +34,9 @@ public class EnrollmentController {
         }
 
     }
+    public void deleteEnrollment(){
+        int id = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el id de la inscripcion"));
+        this.enrollmentService.deleteEnrollment(id);
+    }
 
 }

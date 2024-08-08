@@ -8,5 +8,6 @@ public interface IModelEnrollment extends
         EnrollmentCourseExist<Enrollment>,
         EnrollmentStudentExist<Enrollment>,
         DeleteEnrollment<Enrollment>,
-        IsStudentEnrollment<Enrollment> {
+        IsStudentEnrollment<Enrollment>,
+        CountEnrollment<Enrollment>{
 }

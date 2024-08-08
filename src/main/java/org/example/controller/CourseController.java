@@ -21,4 +21,7 @@ public class CourseController {
 
         this.courseService.deleteCourseWithoutStudent(id);
     }
+    public void readAllCourse(){
+        this.courseService.readAllCourse();
+    }
 }

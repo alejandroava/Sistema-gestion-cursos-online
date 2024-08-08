@@ -13,6 +13,10 @@ import java.sql.SQLException;
 public class EnrollmentService implements IModelEnrollment {
     @Override
     public Enrollment createdEnrollment(Enrollment enrollmentEntity) {
+        if(countEnrollment(enrollmentEntity.getStudentID()) >= 3){
+            JOptionPane.showMessageDialog(null,"El estudiante tiene mas de 3 inscripciones");
+            return null;
+        }
         String sqlQuery = "INSERT INTO Enrollments(student_id,course_id) VALUES(?,?);";
         try(Connection connection = ConnectionBD.getconnection();
         PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)){
@@ -33,6 +37,22 @@ public class EnrollmentService implements IModelEnrollment {
 
     @Override
     public void deleteEnrollment(int id) {
+        String responseDelete = JOptionPane.showInputDialog("Estas a punto de eliminar una inscripcion por ende se perdera el historial de calificaciones, ¿esta seguro de continuat? s/n");
+        if (responseDelete.equals("s")) {
+            String sqlQuery = "DELETE FROM Enrollments WHERE id=?;";
+            try (Connection connection = ConnectionBD.getconnection();
+                 PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
+                preparedStatement.setInt(1, id);
+                int rowsAffected = preparedStatement.executeUpdate();
+                if (rowsAffected == 1) {
+                    JOptionPane.showMessageDialog(null, "Inscripcion eliminada");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Proceso cancelado");
+        }
 
     }
 
@@ -94,5 +114,21 @@ public class EnrollmentService implements IModelEnrollment {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public int countEnrollment(int StudentID) {
+        String sqlQuery = "SELECT COUNT(*) FROM Enrollments WHERE student_id=?;";
+        try(Connection connection = ConnectionBD.getconnection();
+        PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)){
+            preparedStatement.setInt(1,StudentID);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if(rowsAffected > 0){
+                return rowsAffected;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
