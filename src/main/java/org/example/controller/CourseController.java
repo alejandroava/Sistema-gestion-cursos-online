@@ -16,4 +16,9 @@ public class CourseController {
         Course course = new Course(0,name);
         this.courseService.createCourse(course);
     }
+    public void deleteCourse(){
+        int id = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el id del curso"));
+
+        this.courseService.deleteCourseWithoutStudent(id);
+    }
 }

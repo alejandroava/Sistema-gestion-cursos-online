@@ -12,9 +12,10 @@ public class Main {
         EnrollmentController enrollmentController = new EnrollmentController();
         //studentController.createStudent();
         //courseController.createCourse();
-        studentController.readStudentByEmail();
+        //studentController.readStudentByEmail();
         //studentController.readStudenByID();
         //enrollmentController.createEnrollment();
+        courseController.deleteCourse();
 
     }
 }
